@@ -1,18 +1,20 @@
 {
-  "customers": [
+  "users": [
     {
+      "id": "1",
       "firstName": "Margol",
       "lastName": "Bitter",
       "email": "margol@avi.com",
-      "phone": "0526325693",
-      "id": "f69a"
+      "pass": "0526325693"
+      
     },
     {
+      "id": "2",
       "firstName": "Yoav",
       "lastName": "Ashkenazi",
       "email": "yossi@gmail.com",
-      "phone": "052-8956965",
-      "id": "9cbb"
+      "pass": "052-8956965"
+      
     }
   ]
 }
