@@ -1,11 +1,21 @@
 import { FunctionComponent } from "react";
-import { FormikValues, useFormik } from "formik";
+import {  useFormik } from "formik";
 import * as yup from "yup";
+import { User } from "../interfaces/User";
+import { checkUserExist } from "../services/usersService";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
-interface LoginProps {}
+interface LoginProps {
 
-const Login: FunctionComponent<LoginProps> = () => {
-  const formik: FormikValues = useFormik<FormikValues>({
+  isLoginRequired:boolean, 
+  setIsLoginRequired:React.Dispatch<React.SetStateAction<boolean>>
+
+}
+
+const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequired }) => {
+  const navigate: NavigateFunction = useNavigate();
+
+    const formik = useFormik<User>({
     initialValues: {
       email: "",
       pass: "",
@@ -14,17 +24,25 @@ const Login: FunctionComponent<LoginProps> = () => {
       email: yup.string().email().required(),
       pass: yup.string().required().min(4),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
+      const UserEXist = await checkUserExist(values);
+
+      if (UserEXist) {
+        console.log(values.email, UserEXist);
+        // navigate("/home");
+        setIsLoginRequired(false)
+      }
     },
   });
-
-  // const formik: FormikValues = useFormik<FormikValues>
 
   return (
     <>
       <div className="container d-flex flex-column justify-content-center align-items-center">
-        <div className="col-4 text-center">
+        <div
+          className="col-4 text-center m-3"
+          style={{ border: "2pt solid black" }}
+        >
           <h1 className="text-center">LOGIN</h1>
           <form onSubmit={formik.handleSubmit}>
             <div className="form-floating mb-3">
@@ -37,6 +55,7 @@ const Login: FunctionComponent<LoginProps> = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
+              <label htmlFor="floatingInput">Email address</label>
             </div>
             {formik.touched.email && formik.errors.email && (
               <p className="text-danger">{formik.errors.email}</p>
@@ -53,12 +72,20 @@ const Login: FunctionComponent<LoginProps> = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
+              <label htmlFor="floatingInput">Password</label>
             </div>
             {formik.touched.pass && formik.errors.pass && (
               <p className="text-danger">{formik.errors.pass}</p>
             )}
 
-            <button className="btn btn-success col-4">Login</button>
+            <button
+              className="btn btn-success col-4"
+              type="submit"
+            disabled={!formik.isValid || !formik.dirty}
+              // onClick={() => handleClick()}
+            >
+              Login
+            </button>
           </form>
         </div>
       </div>
