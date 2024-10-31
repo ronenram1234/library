@@ -8,20 +8,31 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 
 function App() {
-  const [isLoginRequired, setIsLoginRequired] = useState<boolean>(true);
+  const [isLoginRequired, setIsLoginRequired] = useState<boolean>(false);
   const [userName, setUserName] = useState<User>({
     email: "",
     pass: "",
   });
-  
 
   return (
     <div>
       <div className="container">
         <div className="container bg-dark">
-          <br />
-          <h1 className="text-light text-center">Book Collection</h1>
-          <br />
+          <>
+            
+
+            <h1 className="text-light text-center pt-4 ">Book Collection</h1>
+            {userName.email !== "" ? (
+              <>
+                <h6 className="text-light">Welcome {userName.email}</h6>
+                <button className="btn btn-primary mb-4">Logout</button>
+               
+                
+              </>
+            ) : (
+              <br />
+            )}
+          </>
         </div>
 
         <Router>
@@ -35,13 +46,19 @@ function App() {
                     <Login
                       isLoginRequired={isLoginRequired}
                       setIsLoginRequired={setIsLoginRequired}
+                      setUserName={setUserName}
                     />
                   }
                 />
               ) : (
                 <Route path="/" element={<Home />} />
               )}
-              <Route path="/register" element={<Register userName={userName} setUserName={setUserName}/>} />
+              <Route
+                path="/register"
+                element={
+                  <Register userName={userName} setUserName={setUserName} />
+                }
+              />
             </>
           </Routes>
         </Router>

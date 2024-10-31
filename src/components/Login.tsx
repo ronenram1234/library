@@ -3,17 +3,18 @@ import {  useFormik } from "formik";
 import * as yup from "yup";
 import { User } from "../interfaces/User";
 import { checkUserExist } from "../services/usersService";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+// import { NavigateFunction, useNavigate } from "react-router-dom";
 
 interface LoginProps {
 
   isLoginRequired:boolean, 
   setIsLoginRequired:React.Dispatch<React.SetStateAction<boolean>>
+  setUserName:React.Dispatch<React.SetStateAction<User>>
 
 }
 
-const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequired }) => {
-  const navigate: NavigateFunction = useNavigate();
+const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequired,setUserName }) => {
+  // const navigate: NavigateFunction = useNavigate();
 
     const formik = useFormik<User>({
     initialValues: {
@@ -32,6 +33,7 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
         console.log(values.email, UserEXist);
         // navigate("/home");
         setIsLoginRequired(false)
+        setUserName(values)
       }
     },
   });
@@ -89,7 +91,7 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
           </form>
           <a href="/register">new user registration</a>
           
-        {/* <p onClick={()=>console.log("link")}>new user registration</p> */}
+        
         </div>
         
       </div>

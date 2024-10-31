@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { User } from "../interfaces/User";
 import { FormikValues, useFormik } from "formik";
 import * as yup from "yup";
-import { addUser } from "../services/usersService";
+import { addUser, checkUserExist } from "../services/usersService";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 interface RegisterProps {
@@ -14,14 +14,13 @@ const Register: FunctionComponent<RegisterProps> = ({
   userName,
   setUserName,
 }) => {
-
-    const navigate: NavigateFunction = useNavigate();
-  const formik: FormikValues = useFormik<FormikValues>({
+  const navigate: NavigateFunction = useNavigate();
+  const formik: FormikValues = useFormik<User>({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
+      pass: "",
     },
     validationSchema: yup.object({
       firstName: yup.string(),
@@ -29,10 +28,14 @@ const Register: FunctionComponent<RegisterProps> = ({
       email: yup.string().email().required(),
       pass: yup.string().required().min(4),
     }),
-    onSubmit: (values) => {
-      addUser(values as User)
-        .then(() => navigate("/"))
-        .catch((err) => console.log(err));
+    onSubmit: async (values) => {
+      const UserEXist = await checkUserExist(values);
+
+      if (!UserEXist) {
+        addUser(values as User)
+          .then(() => navigate("/"))
+          .catch((err) => console.log(err));
+      }
     },
   });
   return (
