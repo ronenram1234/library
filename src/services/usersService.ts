@@ -21,6 +21,13 @@ export async function checkUserExist(user: User): Promise<boolean> {
 
     const result = users.find((existUser) => existUser.email === user.email);
 
+// --------------------------------------
+//   change to 
+//   export function loginUser(userEmail: string, userPassword: string) {
+  //     return axios.get(`${api}?email=${userEmail}&?password=${userPassword}`)
+  // }
+  // --------------------------------------
+
     return result !== undefined;
   } catch (err) {
     return false;

@@ -8,7 +8,7 @@ import Home from "./components/Home";
 import Register from "./components/Register";
 
 function App() {
-  const [isLoginRequired, setIsLoginRequired] = useState<boolean>(false);
+  const [isLoginRequired, setIsLoginRequired] = useState<boolean>(true);
   const [userName, setUserName] = useState<User>({
     email: "",
     pass: "",

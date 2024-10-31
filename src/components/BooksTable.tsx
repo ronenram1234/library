@@ -31,7 +31,7 @@ const BooksTable: FunctionComponent<BooksTableProps> = ({ bookList }) => {
                 <td>{book.genre}</td>
                 <td>{book.price}</td>
                 <td><i className="fa-solid fa-pencil `text-warning"></i></td>
-                <td><i className="fa-solid fa-trash text-danger"></i></td>
+                <td><i className="fa-solid fa-trash text-danger" onClick={()=>console.log(book.id)}></i></td>
                 
               </tr>
             ))}
