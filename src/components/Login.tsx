@@ -87,7 +87,11 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
               Login
             </button>
           </form>
+          <a href="/register">new user registration</a>
+          
+        {/* <p onClick={()=>console.log("link")}>new user registration</p> */}
         </div>
+        
       </div>
     </>
   );

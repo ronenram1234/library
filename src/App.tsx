@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import Login from "./components/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import { User } from "./interfaces/User";
+import Login from "./components/Login";
 import Home from "./components/Home";
+import Register from "./components/Register";
 
 function App() {
   const [isLoginRequired, setIsLoginRequired] = useState<boolean>(true);
+  const [userName, setUserName] = useState<User>({
+    email: "",
+    pass: "",
+  });
+  
 
   return (
     <div>
@@ -22,10 +29,19 @@ function App() {
             <>
               {console.log(isLoginRequired)}
               {isLoginRequired ? (
-                <Route path="/" element={<Login  isLoginRequired={isLoginRequired} setIsLoginRequired={setIsLoginRequired}/>} />
+                <Route
+                  path="/"
+                  element={
+                    <Login
+                      isLoginRequired={isLoginRequired}
+                      setIsLoginRequired={setIsLoginRequired}
+                    />
+                  }
+                />
               ) : (
                 <Route path="/" element={<Home />} />
               )}
+              <Route path="/register" element={<Register userName={userName} setUserName={setUserName}/>} />
             </>
           </Routes>
         </Router>

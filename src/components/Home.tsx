@@ -16,6 +16,7 @@ const Home: FunctionComponent<HomeProps> = () => {
     
     <h1>Home</h1>
     
+    
     </>);
 }
  
