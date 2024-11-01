@@ -1,11 +1,10 @@
 import { FunctionComponent } from "react";
-import {  useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { User } from "../interfaces/User";
 import { checkUserExist, userSetItem } from "../services/usersService";
+import { errorMsg, successMsg } from "../services/feedbackService";
 // import { NavigateFunction, useNavigate } from "react-router-dom";
-
-
 
 // -----------------------------------
 // add local (not session) storage for login - no need to have login every timr
@@ -14,20 +13,20 @@ import { checkUserExist, userSetItem } from "../services/usersService";
 // use for login jsonstrangify
 // -----------------------------------
 
-
-
 interface LoginProps {
-
-  isLoginRequired:boolean, 
-  setIsLoginRequired:React.Dispatch<React.SetStateAction<boolean>>
-  setUserName:React.Dispatch<React.SetStateAction<User>>
-
+  isLoginRequired: boolean;
+  setIsLoginRequired: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserName: React.Dispatch<React.SetStateAction<User>>;
 }
 
-const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequired,setUserName }) => {
+const Login: FunctionComponent<LoginProps> = ({
+  isLoginRequired,
+  setIsLoginRequired,
+  setUserName,
+}) => {
   // const navigate: NavigateFunction = useNavigate();
 
-    const formik = useFormik<User>({
+  const formik = useFormik<User>({
     initialValues: {
       email: "",
       pass: "",
@@ -37,23 +36,22 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
       pass: yup.string().required().min(4),
     }),
     onSubmit: async (values) => {
-
       checkUserExist(values)
-      .then((res)=> {
-        if (res.data.length>0)
-        {
-          console.log(res.data)
-          setIsLoginRequired(false)
-          setUserName(values)
-          userSetItem(values)
-        }
-        else {
-          console.log('User not found- ',res.data)
-        }
-      })
-      . catch((err)=>console.log(err))
-
-   
+        .then((res) => {
+          if (res.data.length > 0) {
+            console.log(res.data);
+            setIsLoginRequired(false);
+            setUserName(values);
+            userSetItem(values);
+            successMsg("Sucessful login");
+          } else {
+            console.log("User not found- ", res.data);
+            errorMsg("User not found");
+          }
+        })
+        .catch((err) => {console.log(err)
+          errorMsg(err);
+    });
     },
   });
 
@@ -102,17 +100,14 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
             <button
               className="btn btn-success col-4"
               type="submit"
-            disabled={!formik.isValid || !formik.dirty}
+              disabled={!formik.isValid || !formik.dirty}
               // onClick={() => handleClick()}
             >
               Login
             </button>
           </form>
           <a href="/register">new user registration</a>
-          
-        
         </div>
-        
       </div>
     </>
   );

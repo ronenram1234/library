@@ -4,6 +4,7 @@ import { FormikValues, useFormik } from "formik";
 import * as yup from "yup";
 import { addUser, checkUserExist } from "../services/usersService";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { errorMsg, successMsg } from "../services/feedbackService";
 
 interface RegisterProps {
   userName: User;
@@ -33,8 +34,12 @@ const Register: FunctionComponent<RegisterProps> = ({
 
       if (!UserEXist) {
         addUser(values as User)
-          .then(() => navigate("/"))
-          .catch((err) => console.log(err));
+          .then(() => {
+            successMsg("New user create");
+            navigate("/")})
+          .catch((err) => {console.log(err)
+            errorMsg(err);
+          });
       }
     },
   });

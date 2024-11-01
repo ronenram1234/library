@@ -7,6 +7,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import { userGetItem, userRemoveItem } from "./services/usersService";
+import { successMsg } from "./services/feedbackService";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [isLoginRequired, setIsLoginRequired] = useState<boolean>(true);
@@ -22,6 +24,7 @@ function App() {
       email: "",
       pass: "",
     })
+    successMsg("Logout completed");
   }
 
   const user: User = userGetItem();
@@ -32,6 +35,7 @@ function App() {
 
   return (
     <div>
+      <ToastContainer />
       <div className="container">
         <div className="container bg-dark">
           <>
