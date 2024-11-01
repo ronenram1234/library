@@ -6,6 +6,7 @@ import { User } from "./interfaces/User";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Register from "./components/Register";
+import { userGetItem, userRemoveItem } from "./services/usersService";
 
 function App() {
   const [isLoginRequired, setIsLoginRequired] = useState<boolean>(true);
@@ -14,20 +15,36 @@ function App() {
     pass: "",
   });
 
+  function handleLogOut() {
+    userRemoveItem();
+    setIsLoginRequired(true);
+    setUserName({
+      email: "",
+      pass: "",
+    })
+  }
+
+  const user: User = userGetItem();
+  if (user.email != "" && isLoginRequired) {
+    setUserName(user);
+    setIsLoginRequired(false);
+  }
+
   return (
     <div>
       <div className="container">
         <div className="container bg-dark">
           <>
-            
-
             <h1 className="text-light text-center pt-4 ">Book Collection</h1>
             {userName.email !== "" ? (
               <>
                 <h6 className="text-light">Welcome {userName.email}</h6>
-                <button className="btn btn-primary mb-4">Logout</button>
-               
-                
+                <button
+                  className="btn btn-primary mb-4"
+                  onClick={() => handleLogOut()}
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <br />

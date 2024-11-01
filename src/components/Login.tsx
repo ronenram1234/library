@@ -2,8 +2,19 @@ import { FunctionComponent } from "react";
 import {  useFormik } from "formik";
 import * as yup from "yup";
 import { User } from "../interfaces/User";
-import { checkUserExist } from "../services/usersService";
+import { checkUserExist, userSetItem } from "../services/usersService";
 // import { NavigateFunction, useNavigate } from "react-router-dom";
+
+
+
+// -----------------------------------
+// add local (not session) storage for login - no need to have login every timr
+// get/set/remove
+// logout should be change also
+// use for login jsonstrangify
+// -----------------------------------
+
+
 
 interface LoginProps {
 
@@ -26,15 +37,23 @@ const Login: FunctionComponent<LoginProps> = ({isLoginRequired,setIsLoginRequire
       pass: yup.string().required().min(4),
     }),
     onSubmit: async (values) => {
-      console.log(values);
-      const UserEXist = await checkUserExist(values);
 
-      if (UserEXist) {
-        console.log(values.email, UserEXist);
-        // navigate("/home");
-        setIsLoginRequired(false)
-        setUserName(values)
-      }
+      checkUserExist(values)
+      .then((res)=> {
+        if (res.data.length>0)
+        {
+          console.log(res.data)
+          setIsLoginRequired(false)
+          setUserName(values)
+          userSetItem(values)
+        }
+        else {
+          console.log('User not found- ',res.data)
+        }
+      })
+      . catch((err)=>console.log(err))
+
+   
     },
   });
 
