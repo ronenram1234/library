@@ -108,13 +108,6 @@
       "price": 12.99
     },
     {
-      "id": "6",
-      "bookName": "The Hobbit",
-      "author": "J.R.R. Tolkien",
-      "genre": "Fantasy",
-      "price": 25.99
-    },
-    {
       "id": "7",
       "bookName": "Moby Dick",
       "author": "Herman Melville",
@@ -125,15 +118,8 @@
       "id": "8",
       "bookName": "War and Peace",
       "author": "Leo Tolstoy",
-      "genre": "Historical",
+      "genre": "Historic",
       "price": 32.99
-    },
-    {
-      "id": "9",
-      "bookName": "Crime and Punishment",
-      "author": "Fyodor Dostoevsky",
-      "genre": "Psychological",
-      "price": 24.99
     },
     {
       "id": "10",
@@ -144,7 +130,7 @@
     },
     {
       "id": "9902",
-      "bookName": "ronen",
+      "bookName": "ronen ram",
       "author": "ronen",
       "genre": "history",
       "price": 11.11
@@ -152,7 +138,7 @@
     {
       "id": "2883",
       "bookName": "ronen",
-      "author": "ronen",
+      "author": "ronen ram",
       "genre": "history",
       "price": 11.11
     },

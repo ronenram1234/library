@@ -3,6 +3,7 @@ import NewBook from "./NewBook";
 import BooksTable from "./BooksTable";
 import { Book } from "../interfaces/Book";
 import {getAllBooks} from "../services/bookService"
+import UpdateBook from "./UpdateBook";
 
 
 interface HomeProps {}
@@ -10,6 +11,8 @@ interface HomeProps {}
 const Home: FunctionComponent<HomeProps> = () => {
   const [bookList, setBookList] = useState<Book[]>([]);
   const [isBookListChange, setIsBookListChange] = useState<Boolean>(true);
+  const [isBookUpdate, setisBookUpdate] = useState<Boolean>(false);
+  const [BookUpdateId, setBookUpdateId] = useState<string>("");
 
 
   useEffect(() => {
@@ -23,10 +26,11 @@ const Home: FunctionComponent<HomeProps> = () => {
       <div className="coantainer">
         <div className="row">
           <div className="col-4">
-            <NewBook isBookListChange= {isBookListChange} setIsBookListChange={setIsBookListChange}/>
+            {isBookUpdate ? (<UpdateBook isBookListChange= {isBookListChange} setIsBookListChange={setIsBookListChange} setisBookUpdate={setisBookUpdate} BookUpdateId={BookUpdateId}/>) : (<NewBook isBookListChange= {isBookListChange} setIsBookListChange={setIsBookListChange}/>)}
+            
           </div>
           <div className="col-8">
-            <BooksTable bookList={bookList}/>
+            <BooksTable bookList={bookList} isBookListChange={isBookListChange} setIsBookListChange={setIsBookListChange} setisBookUpdate={setisBookUpdate} setBookUpdateId={setBookUpdateId}/>
           </div>
         </div>
       </div>
@@ -35,7 +39,5 @@ const Home: FunctionComponent<HomeProps> = () => {
 };
 
 export default Home;
-function getAllBookss() {
-    throw new Error("Function not implemented.");
-}
+
 

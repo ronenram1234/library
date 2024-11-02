@@ -1,12 +1,35 @@
 import { FunctionComponent } from "react";
 import { Book } from "../interfaces/Book";
+import { errorMsg, successMsg } from "../services/feedbackService";
+import { deleteBook } from "../services/bookService";
 
 
 interface BooksTableProps {
   bookList: Book[];
+  isBookListChange:Boolean
+  setIsBookListChange:React.Dispatch<React.SetStateAction<Boolean>>
+  setisBookUpdate:React.Dispatch<React.SetStateAction<Boolean>>
+  setBookUpdateId:React.Dispatch<React.SetStateAction<string>>
 }
 
-const BooksTable: FunctionComponent<BooksTableProps> = ({ bookList }) => {
+const BooksTable: FunctionComponent<BooksTableProps> = ({ bookList, isBookListChange, setIsBookListChange,setisBookUpdate, setBookUpdateId  }) => {
+
+function handelDelete(id:string){
+  deleteBook(id)
+  .then(()=>{
+    successMsg("Complete record delete")
+    setIsBookListChange(!isBookListChange)
+})
+  .catch ((err)=>errorMsg(`Error deleteing ${id} - ${err}`) )
+}
+
+function handelChange(id:string){
+    
+  setBookUpdateId(id)
+  setisBookUpdate(true)
+
+}
+
   return (
     <>
       <div className="container">
@@ -30,8 +53,16 @@ const BooksTable: FunctionComponent<BooksTableProps> = ({ bookList }) => {
                 <td>{book.author}</td>
                 <td>{book.genre}</td>
                 <td>{book.price}</td>
-                <td><i className="fa-solid fa-pencil `text-warning"></i></td>
-                <td><i className="fa-solid fa-trash text-danger" onClick={()=>console.log(book.id)}></i></td>
+                <td><i className="fa-solid fa-pencil `text-warning" onClick={()=>{
+                  book.id ? 
+                  handelChange(book.id) : 
+                  errorMsg("error - no id to delete")
+                }}></i></td>
+                <td><i className="fa-solid fa-trash text-danger" onClick={()=>{
+                  book.id ? 
+                  handelDelete(book.id) : 
+                  errorMsg("error - no id to delete")
+                }}></i></td>
                 
               </tr>
             ))}

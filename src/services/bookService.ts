@@ -13,3 +13,20 @@ export function addBook(book: Book) {
   
     return axios.post(api, book);
   }
+
+
+  export function deleteBook(id:string){
+    return axios.delete(`${api}/${id}`);
+  }
+
+
+  export function getBookById(id:string){
+    let prom= axios.get(`${api}/${id}`);
+    // console.log(prom.data)
+
+    return prom
+  }
+
+  export function updateBook(id: string, updatedBook: Book) { 
+    return axios.put(`${api}/${id}`, updatedBook);
+}
